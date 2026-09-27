@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PatinhasApp.ViewModels"
+             x:Class="PatinhasApp.Views.CadastroCaoPage"
+             x:DataType="vm:CadastroCaoViewModel"
+             Title="{Binding Titulo}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="6">
+
+            <!-- Foto + botões de escolher/tirar -->
+            <Border WidthRequest="140" HeightRequest="140"
+                    HorizontalOptions="Center"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 20"
+                    Margin="0,4,0,8">
+                <Image Source="{Binding CaminhoFoto, Converter={StaticResource CaminhoFotoConverter}}"
+                       Aspect="AspectFill"
+                       WidthRequest="140" HeightRequest="140" />
+            </Border>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Button Grid.Column="0" Text="Galeria"
+                        Style="{StaticResource BotaoSecundario}"
+                        Command="{Binding EscolherFotoCommand}" />
+                <Button Grid.Column="1" Text="Câmera"
+                        Style="{StaticResource BotaoSecundario}"
+                        Command="{Binding TirarFotoCommand}" />
+            </Grid>
+
+            <Label Text="Nome" Style="{StaticResource Rotulo}" />
+            <Entry Text="{Binding Nome}" Placeholder="Ex.: Thor" />
+
+            <Label Text="Sexo" Style="{StaticResource Rotulo}" />
+            <Picker ItemsSource="{Binding OpcoesSexo}"
+                    SelectedIndex="{Binding SexoSelecionado}" />
+
+            <Label Text="Porte" Style="{StaticResource Rotulo}" />
+            <Picker ItemsSource="{Binding OpcoesPorte}"
+                    SelectedIndex="{Binding PorteSelecionado}" />
+
+            <Label Text="Data do resgate" Style="{StaticResource Rotulo}" />
+            <DatePicker Date="{Binding DataResgate}" Format="dd/MM/yyyy" />
+
+            <Label Text="Situação" Style="{StaticResource Rotulo}" />
+            <Picker ItemsSource="{Binding OpcoesSituacao}"
+                    SelectedIndex="{Binding SituacaoSelecionada}" />
+
+            <Label Text="Observações" Style="{StaticResource Rotulo}" />
+            <Editor Text="{Binding Observacoes}"
+                    Placeholder="Anotações gerais sobre o cão (opcional)"
+                    AutoSize="TextChanges"
+                    HeightRequest="90" />
+
+            <Button Text="Salvar"
+                    Style="{StaticResource BotaoPrimario}"
+                    Command="{Binding SalvarCommand}"
+                    Margin="0,16,0,0" />
+
+            <Button Text="Cancelar"
+                    Style="{StaticResource BotaoSecundario}"
+                    Command="{Binding CancelarCommand}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

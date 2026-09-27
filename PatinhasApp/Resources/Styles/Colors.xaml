@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Colors.xaml
+    Paleta de cores do app, num lugar só. Assim, se o grupo quiser mudar a
+    "cara" do aplicativo, é só trocar os valores aqui e tudo se ajusta.
+    O nome de cada cor (x:Key) é usado nos estilos e nas telas.
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Cor principal (coral): botões, barra de abas, destaques -->
+    <Color x:Key="Primary">#E07856</Color>
+    <Color x:Key="PrimaryDark">#C25E3E</Color>
+
+    <!-- Cor secundária (verde/teal): apoio, ícones, detalhes -->
+    <Color x:Key="Secondary">#3D8577</Color>
+
+    <!-- Cor de acento (amarelo suave): avisos leves -->
+    <Color x:Key="Accent">#F2C14E</Color>
+
+    <!-- Fundos e superfícies -->
+    <Color x:Key="Fundo">#FBF7F2</Color>        <!-- fundo das telas (off-white quente) -->
+    <Color x:Key="Superficie">#FFFFFF</Color>   <!-- cartões -->
+    <Color x:Key="Borda">#ECE3DA</Color>        <!-- linhas/contornos suaves -->
+
+    <!-- Textos -->
+    <Color x:Key="TextoPrimario">#2B2622</Color>
+    <Color x:Key="TextoSecundario">#7A716A</Color>
+
+    <!-- Situações -->
+    <Color x:Key="Sucesso">#3D8577</Color>
+    <Color x:Key="Alerta">#E0A030</Color>
+    <Color x:Key="Perigo">#D9534F</Color>
+
+    <!-- Básicas -->
+    <Color x:Key="White">#FFFFFF</Color>
+    <Color x:Key="Black">#000000</Color>
+
+</ResourceDictionary>

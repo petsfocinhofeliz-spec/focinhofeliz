@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    AndroidManifest.xml
+    "Ficha técnica" do app para o Android. Aqui declaramos permissões e
+    configurações. Repare que NÃO pedimos permissão de internet: o app é
+    totalmente offline. Pedimos câmera (para a foto do cão) e os recursos
+    de mídia ficam por conta do próprio MAUI/plugin.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+	<application android:allowBackup="true"
+	             android:icon="@mipmap/appicon"
+	             android:roundIcon="@mipmap/appicon_round"
+	             android:supportsRtl="true"></application>
+
+	<!-- Câmera: usada para tirar a foto do cão no cadastro -->
+	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-feature android:name="android.hardware.camera" android:required="false" />
+</manifest>

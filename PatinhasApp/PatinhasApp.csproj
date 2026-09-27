@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<!-- Só Android, porque o app é exclusivo para o celular Android da usuária -->
+		<TargetFramework>net8.0-android</TargetFramework>
+		<OutputType>Exe</OutputType>
+		<RootNamespace>PatinhasApp</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<!-- Identidade do app (aparece no aparelho e no APK) -->
+		<ApplicationTitle>Patinhas do Bem</ApplicationTitle>
+		<ApplicationId>com.patinhasdobem.app</ApplicationId>
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<!-- Android 7 (API 24) em diante -->
+		<SupportedOSPlatformVersion>24.0</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- Ícone e tela de abertura, gerados a partir dos SVGs -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#E07856" />
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#E07856" BaseSize="128,128" />
+
+		<!-- Imagens do app (ex.: foto padrão do cão) -->
+		<MauiImage Include="Resources\Images\*" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Framework de UI -->
+		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+
+		<!-- Padrão MVVM (gera código de binding automaticamente) -->
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+
+		<!-- Banco de dados local SQLite -->
+		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.10" />
+	</ItemGroup>
+
+</Project>

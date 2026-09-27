@@ -1,0 +1,24 @@
+# ---- Pastas de build do .NET / Visual Studio ----
+bin/
+obj/
+.vs/
+
+# ---- Arquivos temporários do usuário ----
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ---- Saídas de publicação / APK ----
+*.apk
+*.aab
+publish/
+Publish/
+
+# ---- Rider / VS Code (caso alguém use) ----
+.idea/
+.vscode/
+
+# ---- Sistema operacional ----
+.DS_Store
+Thumbs.db

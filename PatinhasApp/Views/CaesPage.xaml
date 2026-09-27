@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PatinhasApp.ViewModels"
+             xmlns:models="clr-namespace:PatinhasApp.Models"
+             x:Class="PatinhasApp.Views.CaesPage"
+             x:DataType="vm:CaesViewModel"
+             Title="Cães">
+
+    <!-- Grid com a lista por baixo e o botão "+" flutuando por cima -->
+    <Grid>
+        <Grid RowDefinitions="Auto,*" Padding="16,12,16,0" RowSpacing="10">
+
+            <!-- Filtro por situação -->
+            <Picker Grid.Row="0"
+                    Title="Filtrar por situação"
+                    ItemsSource="{Binding OpcoesFiltro}"
+                    SelectedItem="{Binding FiltroSituacao}" />
+
+            <!-- Lista de cães -->
+            <RefreshView Grid.Row="1"
+                         IsRefreshing="{Binding Ocupado}"
+                         Command="{Binding CarregarCommand}">
+                <CollectionView ItemsSource="{Binding Caes}"
+                                SelectionMode="None">
+
+                    <!-- Mensagem quando não há nenhum cão cadastrado -->
+                    <CollectionView.EmptyView>
+                        <StackLayout Padding="24" Spacing="8" VerticalOptions="Center">
+                            <Label Text="Nenhum cão por aqui ainda."
+                                   HorizontalOptions="Center"
+                                   Style="{StaticResource TituloCard}" />
+                            <Label Text="Toque no botão + para cadastrar o primeiro."
+                                   HorizontalOptions="Center"
+                                   Style="{StaticResource TextoSecundario}" />
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Cao">
+                            <Border Style="{StaticResource Card}">
+                                <!-- Toque no cartão abre o detalhe do cão -->
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CaesViewModel}}, Path=AbrirCaoCommand}"
+                                        CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+
+                                <Grid ColumnDefinitions="64,*,Auto" ColumnSpacing="12">
+                                    <!-- Foto -->
+                                    <Border Grid.Column="0"
+                                            WidthRequest="64" HeightRequest="64"
+                                            StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 12">
+                                        <Image Source="{Binding CaminhoFoto, Converter={StaticResource CaminhoFotoConverter}}"
+                                               Aspect="AspectFill"
+                                               WidthRequest="64" HeightRequest="64" />
+                                    </Border>
+
+                                    <!-- Nome + resumo -->
+                                    <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                        <Label Text="{Binding Nome}" Style="{StaticResource TituloCard}" />
+                                        <Label Text="{Binding ResumoTexto}" Style="{StaticResource TextoSecundario}" />
+                                    </StackLayout>
+
+                                    <!-- Situação -->
+                                    <Border Grid.Column="2"
+                                            VerticalOptions="Center"
+                                            BackgroundColor="{StaticResource Fundo}"
+                                            Stroke="{StaticResource Borda}"
+                                            StrokeThickness="1"
+                                            Padding="8,4"
+                                            StrokeShape="RoundRectangle 8">
+                                        <Label Text="{Binding SituacaoTexto}"
+                                               FontSize="11"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource Secondary}" />
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </Grid>
+
+        <!-- Botão flutuante "novo cão" -->
+        <Button Text="+"
+                Style="{StaticResource BotaoFlutuante}"
+                Command="{Binding NovoCaoCommand}" />
+    </Grid>
+</ContentPage>

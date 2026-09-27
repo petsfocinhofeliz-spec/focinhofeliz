@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Primeiro plano do ícone: uma patinha branca centralizada. -->
+<svg width="456" height="456" viewBox="0 0 456 456" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g fill="#FFFFFF">
+    <!-- Coxim central (palma) -->
+    <path d="M228 250c-38 0-70 26-70 58 0 26 21 42 50 42 12 0 18-4 20-4s8 4 20 4c29 0 50-16 50-42 0-32-32-58-70-58z"/>
+    <!-- Dedos -->
+    <ellipse cx="168" cy="212" rx="24" ry="30"/>
+    <ellipse cx="288" cy="212" rx="24" ry="30"/>
+    <ellipse cx="205" cy="176" rx="22" ry="28"/>
+    <ellipse cx="251" cy="176" rx="22" ry="28"/>
+  </g>
+</svg>

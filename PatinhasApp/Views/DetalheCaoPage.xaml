@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PatinhasApp.ViewModels"
+             xmlns:models="clr-namespace:PatinhasApp.Models"
+             x:Class="PatinhasApp.Views.DetalheCaoPage"
+             x:DataType="vm:DetalheCaoViewModel"
+             Title="{Binding Titulo}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="14">
+
+            <!-- ===== Dados do cão ===== -->
+            <Border Style="{StaticResource Card}">
+                <Grid ColumnDefinitions="90,*" ColumnSpacing="14">
+                    <Border Grid.Column="0"
+                            WidthRequest="90" HeightRequest="90"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 14">
+                        <Image Source="{Binding Cao.CaminhoFoto, Converter={StaticResource CaminhoFotoConverter}}"
+                               Aspect="AspectFill"
+                               WidthRequest="90" HeightRequest="90" />
+                    </Border>
+
+                    <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="3">
+                        <Label Text="{Binding Cao.Nome}" Style="{StaticResource TituloCard}" />
+                        <Label Text="{Binding Cao.ResumoTexto}" Style="{StaticResource TextoSecundario}" />
+                        <Label Text="{Binding Cao.SituacaoTexto}"
+                               FontSize="13" FontAttributes="Bold"
+                               TextColor="{StaticResource Secondary}" />
+                    </StackLayout>
+                </Grid>
+            </Border>
+
+            <!-- Observações do cão (só aparece se houver texto) -->
+            <Border Style="{StaticResource Card}"
+                    IsVisible="{Binding Cao.Observacoes, Converter={StaticResource StringNaoVazioConverter}}">
+                <StackLayout Spacing="4">
+                    <Label Text="Observações" Style="{StaticResource Rotulo}" Margin="0" />
+                    <Label Text="{Binding Cao.Observacoes}" Style="{StaticResource TextoSecundario}" />
+                </StackLayout>
+            </Border>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Button Grid.Column="0" Text="Editar"
+                        Style="{StaticResource BotaoSecundario}"
+                        Command="{Binding EditarCaoCommand}" />
+                <Button Grid.Column="1" Text="Registrar adoção"
+                        Style="{StaticResource BotaoPrimario}"
+                        Command="{Binding RegistrarAdocaoCommand}" />
+            </Grid>
+
+            <!-- ===== Adoção (se houver) ===== -->
+            <Border Style="{StaticResource Card}" IsVisible="{Binding PossuiAdocao}">
+                <StackLayout Spacing="4">
+                    <Label Text="Adoção" Style="{StaticResource TituloCard}" />
+                    <Label Style="{StaticResource TextoSecundario}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Adotante: " FontAttributes="Bold" />
+                                <Span Text="{Binding Adocao.NomeAdotante}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Style="{StaticResource TextoSecundario}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Contato: " FontAttributes="Bold" />
+                                <Span Text="{Binding Adocao.Contato}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Style="{StaticResource TextoSecundario}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Data: " FontAttributes="Bold" />
+                                <Span Text="{Binding Adocao.DataTexto}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+            </Border>
+
+            <!-- ===== Histórico de saúde ===== -->
+            <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                <Label Grid.Column="0" Text="Histórico de saúde"
+                       Style="{StaticResource TituloTela}" VerticalOptions="Center" />
+                <Button Grid.Column="1" Text="+ Adicionar"
+                        Style="{StaticResource BotaoSecundario}"
+                        HeightRequest="40" Padding="12,0"
+                        Command="{Binding NovoRegistroSaudeCommand}" />
+            </Grid>
+
+            <CollectionView ItemsSource="{Binding Registros}" SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <Label Text="Nenhum registro de saúde ainda."
+                           Style="{StaticResource TextoSecundario}"
+                           Padding="4,8" />
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:RegistroSaude">
+                        <Border Style="{StaticResource Card}" Padding="12">
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                <StackLayout Grid.Column="0" Spacing="2">
+                                    <Label Style="{StaticResource TituloCard}" FontSize="15">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding TipoTexto}" FontAttributes="Bold" />
+                                                <Span Text=": " />
+                                                <Span Text="{Binding Descricao}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Text="{Binding DataTexto, StringFormat='Data: {0}'}"
+                                           Style="{StaticResource TextoSecundario}" />
+                                    <Label Text="{Binding StatusVencimento}"
+                                           Style="{StaticResource TextoSecundario}"
+                                           IsVisible="{Binding TemProximaData}" />
+                                </StackLayout>
+
+                                <Button Grid.Column="1" Text="Excluir"
+                                        FontSize="12"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{StaticResource Perigo}"
+                                        Padding="6,0"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:DetalheCaoViewModel}}, Path=ExcluirRegistroCommand}"
+                                        CommandParameter="{Binding .}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Excluir cão -->
+            <Button Text="Excluir cão"
+                    Style="{StaticResource BotaoPerigo}"
+                    Command="{Binding ExcluirCaoCommand}"
+                    Margin="0,10,0,0" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

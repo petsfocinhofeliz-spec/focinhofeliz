@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PatinhasApp.ViewModels"
+             xmlns:models="clr-namespace:PatinhasApp.Models"
+             x:Class="PatinhasApp.Views.AdocoesPage"
+             x:DataType="vm:AdocoesViewModel"
+             Title="Adoções">
+
+    <Grid>
+        <RefreshView IsRefreshing="{Binding Ocupado}"
+                     Command="{Binding CarregarCommand}">
+            <CollectionView ItemsSource="{Binding Adocoes}"
+                            SelectionMode="None"
+                            Margin="16,12,16,0">
+
+                <CollectionView.EmptyView>
+                    <StackLayout Padding="24" Spacing="8" VerticalOptions="Center">
+                        <Label Text="Nenhuma adoção registrada ainda."
+                               HorizontalOptions="Center"
+                               Style="{StaticResource TituloCard}" />
+                        <Label Text="Toque em + para registrar uma adoção."
+                               HorizontalOptions="Center"
+                               Style="{StaticResource TextoSecundario}" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Adocao">
+                        <Border Style="{StaticResource Card}">
+                            <StackLayout Spacing="3">
+                                <Label Text="{Binding NomeAnimal}" Style="{StaticResource TituloCard}" />
+                                <Label Style="{StaticResource TextoSecundario}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Adotante: " FontAttributes="Bold" />
+                                            <Span Text="{Binding NomeAdotante}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Style="{StaticResource TextoSecundario}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Contato: " FontAttributes="Bold" />
+                                            <Span Text="{Binding Contato}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Text="{Binding DataTexto, StringFormat='Data da adoção: {0}'}"
+                                       Style="{StaticResource TextoSecundario}" />
+                            </StackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <Button Text="+"
+                Style="{StaticResource BotaoFlutuante}"
+                Command="{Binding NovaAdocaoCommand}" />
+    </Grid>
+</ContentPage>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PatinhasApp.ViewModels"
+             x:Class="PatinhasApp.Views.AlertasPage"
+             x:DataType="vm:AlertasViewModel"
+             Title="Alertas">
+
+    <Grid RowDefinitions="Auto,*" Padding="16,12,16,0" RowSpacing="10">
+
+        <Label Grid.Row="0"
+               Text="Vacinas e vermífugos vencidos ou que vencem nos próximos 30 dias."
+               Style="{StaticResource TextoSecundario}" />
+
+        <RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding Ocupado}"
+                     Command="{Binding CarregarCommand}">
+            <CollectionView ItemsSource="{Binding Alertas}" SelectionMode="None">
+
+                <CollectionView.EmptyView>
+                    <StackLayout Padding="24" Spacing="8" VerticalOptions="Center">
+                        <Label Text="Tudo em dia! 🐾"
+                               HorizontalOptions="Center"
+                               Style="{StaticResource TituloCard}" />
+                        <Label Text="Nenhum vencimento próximo no momento."
+                               HorizontalOptions="Center"
+                               Style="{StaticResource TextoSecundario}" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:AlertaSaude">
+                        <Border Style="{StaticResource Card}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AlertasViewModel}}, Path=AbrirCaoCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+
+                            <Grid ColumnDefinitions="6,*" ColumnSpacing="12">
+                                <!-- Faixa colorida: vermelha se vencido, amarela se a vencer -->
+                                <BoxView Grid.Column="0"
+                                         CornerRadius="3"
+                                         Color="{StaticResource Alerta}" />
+                                <StackLayout Grid.Column="1" Spacing="3">
+                                    <Label Text="{Binding Titulo}" Style="{StaticResource TituloCard}" FontSize="15" />
+                                    <Label Text="{Binding Detalhe}" Style="{StaticResource TextoSecundario}" />
+                                </StackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

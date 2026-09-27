@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PatinhasApp.ViewModels"
+             x:Class="PatinhasApp.Views.AjustesPage"
+             x:DataType="vm:AjustesViewModel"
+             Title="Ajustes">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="14">
+
+            <!-- Totais -->
+            <Border Style="{StaticResource Card}">
+                <Grid ColumnDefinitions="*,*">
+                    <StackLayout Grid.Column="0" Spacing="2" HorizontalOptions="Center">
+                        <Label Text="{Binding TotalCaes}"
+                               FontSize="30" FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="{StaticResource Primary}" />
+                        <Label Text="Cães" HorizontalOptions="Center"
+                               Style="{StaticResource TextoSecundario}" />
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" Spacing="2" HorizontalOptions="Center">
+                        <Label Text="{Binding TotalAdocoes}"
+                               FontSize="30" FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="{StaticResource Secondary}" />
+                        <Label Text="Adoções" HorizontalOptions="Center"
+                               Style="{StaticResource TextoSecundario}" />
+                    </StackLayout>
+                </Grid>
+            </Border>
+
+            <!-- Backup -->
+            <Border Style="{StaticResource Card}">
+                <StackLayout Spacing="10">
+                    <Label Text="Backup dos dados" Style="{StaticResource TituloCard}" />
+                    <Label Style="{StaticResource TextoSecundario}"
+                           Text="Todos os dados ficam salvos apenas neste celular (arquivo patinhas.db3). Exporte de tempos em tempos e guarde o arquivo em local seguro (e-mail, Google Drive, etc.). Ao trocar de aparelho, use &quot;Restaurar&quot; para trazer os dados de volta." />
+
+                    <Button Text="Exportar dados (backup)"
+                            Style="{StaticResource BotaoPrimario}"
+                            Command="{Binding ExportarCommand}" />
+
+                    <Button Text="Restaurar backup"
+                            Style="{StaticResource BotaoSecundario}"
+                            Command="{Binding ImportarCommand}" />
+                </StackLayout>
+            </Border>
+
+            <!-- Sobre -->
+            <Border Style="{StaticResource Card}">
+                <StackLayout Spacing="4">
+                    <Label Text="Sobre" Style="{StaticResource TituloCard}" />
+                    <Label Text="Patinhas do Bem" Style="{StaticResource TextoSecundario}" />
+                    <Label Text="Aplicativo para registro de cães resgatados, histórico de saúde e adoções. Funciona 100% offline."
+                           Style="{StaticResource TextoSecundario}" />
+                </StackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

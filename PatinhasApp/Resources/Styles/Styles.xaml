@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Styles.xaml
+    Estilos reutilizados nas telas (cartões, botões, títulos...) e os
+    "conversores" (converters) que transformam dados na hora de exibir.
+    Definir tudo aqui evita repetir código em cada tela e deixa o visual
+    consistente no app inteiro.
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:conv="clr-namespace:PatinhasApp.Helpers">
+
+    <!-- ============ Conversores ============ -->
+    <conv:CaminhoFotoConverter x:Key="CaminhoFotoConverter" />
+    <conv:BoolInvertidoConverter x:Key="BoolInvertidoConverter" />
+    <conv:StringNaoVazioConverter x:Key="StringNaoVazioConverter" />
+
+    <!-- ============ Aparência geral ============ -->
+
+    <!-- Fundo padrão de todas as páginas -->
+    <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+        <Setter Property="BackgroundColor" Value="{StaticResource Fundo}" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <!-- Barra de navegação (topo) e abas (base) -->
+    <Style TargetType="Shell" ApplyToDerivedTypes="True">
+        <Setter Property="Shell.BackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="Shell.ForegroundColor" Value="{StaticResource White}" />
+        <Setter Property="Shell.TitleColor" Value="{StaticResource White}" />
+        <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="Shell.TabBarForegroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="Shell.TabBarTitleColor" Value="{StaticResource Primary}" />
+        <Setter Property="Shell.TabBarUnselectedColor" Value="{StaticResource TextoSecundario}" />
+    </Style>
+
+    <!-- ============ Textos ============ -->
+
+    <Style x:Key="TituloTela" TargetType="Label">
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource TextoPrimario}" />
+    </Style>
+
+    <Style x:Key="TituloCard" TargetType="Label">
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource TextoPrimario}" />
+    </Style>
+
+    <Style x:Key="TextoSecundario" TargetType="Label">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="TextColor" Value="{StaticResource TextoSecundario}" />
+    </Style>
+
+    <Style x:Key="Rotulo" TargetType="Label">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource TextoSecundario}" />
+        <Setter Property="Margin" Value="0,8,0,2" />
+    </Style>
+
+    <!-- ============ Cartão (card) ============ -->
+    <Style x:Key="Card" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource Superficie}" />
+        <Setter Property="Stroke" Value="{StaticResource Borda}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Padding" Value="14" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+    </Style>
+
+    <!-- ============ Campos de entrada ============ -->
+    <Style TargetType="Entry">
+        <Setter Property="TextColor" Value="{StaticResource TextoPrimario}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource TextoSecundario}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Superficie}" />
+    </Style>
+
+    <Style TargetType="Editor">
+        <Setter Property="TextColor" Value="{StaticResource TextoPrimario}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource TextoSecundario}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Superficie}" />
+    </Style>
+
+    <Style TargetType="Picker">
+        <Setter Property="TextColor" Value="{StaticResource TextoPrimario}" />
+        <Setter Property="TitleColor" Value="{StaticResource TextoSecundario}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Superficie}" />
+    </Style>
+
+    <Style TargetType="DatePicker">
+        <Setter Property="TextColor" Value="{StaticResource TextoPrimario}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Superficie}" />
+    </Style>
+
+    <!-- ============ Botões ============ -->
+
+    <!-- Botão principal (coral) -->
+    <Style x:Key="BotaoPrimario" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="HeightRequest" Value="48" />
+        <Setter Property="Padding" Value="16,0" />
+    </Style>
+
+    <!-- Botão secundário (contorno) -->
+    <Style x:Key="BotaoSecundario" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+        <Setter Property="BorderColor" Value="{StaticResource Primary}" />
+        <Setter Property="BorderWidth" Value="1.5" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="HeightRequest" Value="48" />
+        <Setter Property="Padding" Value="16,0" />
+    </Style>
+
+    <!-- Botão de ação destrutiva (excluir) -->
+    <Style x:Key="BotaoPerigo" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{StaticResource Perigo}" />
+        <Setter Property="BorderColor" Value="{StaticResource Perigo}" />
+        <Setter Property="BorderWidth" Value="1.5" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="HeightRequest" Value="48" />
+        <Setter Property="Padding" Value="16,0" />
+    </Style>
+
+    <!-- Botão flutuante redondo ("+") no canto da tela -->
+    <Style x:Key="BotaoFlutuante" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="CornerRadius" Value="30" />
+        <Setter Property="WidthRequest" Value="60" />
+        <Setter Property="HeightRequest" Value="60" />
+        <Setter Property="HorizontalOptions" Value="End" />
+        <Setter Property="VerticalOptions" Value="End" />
+        <Setter Property="Margin" Value="0,0,18,18" />
+    </Style>
+
+</ResourceDictionary>
