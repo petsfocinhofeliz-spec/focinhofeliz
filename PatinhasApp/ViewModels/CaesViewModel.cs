@@ -20,6 +20,9 @@ public partial class CaesViewModel : BaseViewModel
     [ObservableProperty]
     private string filtroSituacao = "Todos";
 
+    [ObservableProperty]
+    private string pesquisaNome = string.Empty;
+
     private List<Cao> _todos = new();
 
     public CaesViewModel(DatabaseService database)
@@ -47,6 +50,9 @@ public partial class CaesViewModel : BaseViewModel
     // Chamado automaticamente sempre que FiltroSituacao muda no Picker.
     partial void OnFiltroSituacaoChanged(string value) => AplicarFiltro();
 
+    // Chamado automaticamente sempre que o texto da pesquisa muda.
+    partial void OnPesquisaNomeChanged(string value) => AplicarFiltro();
+
     private void AplicarFiltro()
     {
         var lista = FiltroSituacao switch
@@ -57,7 +63,14 @@ public partial class CaesViewModel : BaseViewModel
             _ => _todos
         };
 
+        if (!string.IsNullOrWhiteSpace(PesquisaNome))
+        {
+            lista = lista.Where(c =>
+                c.Nome.Contains(PesquisaNome, StringComparison.OrdinalIgnoreCase));
+        }
+
         Caes.Clear();
+
         foreach (var c in lista)
             Caes.Add(c);
     }

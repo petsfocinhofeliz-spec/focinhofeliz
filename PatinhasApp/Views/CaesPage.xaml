@@ -9,16 +9,22 @@
 
     <!-- Grid com a lista por baixo e o botão "+" flutuando por cima -->
     <Grid>
-        <Grid RowDefinitions="Auto,*" Padding="16,12,16,0" RowSpacing="10">
+        <Grid RowDefinitions="Auto,Auto,*" Padding="16,12,16,0" RowSpacing="10">
+
+            <!-- Pesquisa pelo nome -->
+            <Entry Grid.Row="0"
+                   Placeholder="Pesquisar cão pelo nome..."
+                   Text="{Binding PesquisaNome}"
+                   ClearButtonVisibility="WhileEditing" />
 
             <!-- Filtro por situação -->
-            <Picker Grid.Row="0"
+            <Picker Grid.Row="1"
                     Title="Filtrar por situação"
                     ItemsSource="{Binding OpcoesFiltro}"
                     SelectedItem="{Binding FiltroSituacao}" />
 
             <!-- Lista de cães -->
-            <RefreshView Grid.Row="1"
+            <RefreshView Grid.Row="2"
                          IsRefreshing="{Binding Ocupado}"
                          Command="{Binding CarregarCommand}">
                 <CollectionView ItemsSource="{Binding Caes}"
