@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PatinhasApp.Data;
 using PatinhasApp.Models;
+using System.Runtime.ConstrainedExecution;
 
 namespace PatinhasApp.ViewModels;
 
@@ -26,10 +27,15 @@ public partial class CadastroCaoViewModel : BaseViewModel
     [ObservableProperty] private bool temFoto;
     [ObservableProperty] private int sexoSelecionado;      // 0 = Macho, 1 = Fêmea
     [ObservableProperty] private int porteSelecionado;     // 0,1,2
+    [ObservableProperty] private string? raca;
+    [ObservableProperty] private string? cor;
+    [ObservableProperty] private int castradoSelecionado;
     [ObservableProperty] private DateTime dataResgate = DateTime.Today;
     [ObservableProperty] private int situacaoSelecionada;  // 0,1,2
     [ObservableProperty] private string? observacoes;
 
+    public List<string> OpcoesCastrado { get; } = new() { "Não", "Sim" };
+    
     public List<string> OpcoesSexo { get; } = new() { "Macho", "Fêmea" };
     public List<string> OpcoesPorte { get; } = new() { "Pequeno", "Médio", "Grande" };
     public List<string> OpcoesSituacao { get; } = new() { "No projeto", "Apoiado", "Adotado" };
@@ -53,7 +59,10 @@ public partial class CadastroCaoViewModel : BaseViewModel
         Nome = cao.Nome;
         CaminhoFoto = cao.CaminhoFoto;
         SexoSelecionado = (int)cao.Sexo;
-        PorteSelecionado = (int)cao.Porte;
+        PorteSelecionado = (int)cao.Porte;     
+        CastradoSelecionado = cao.Castrado ? 1 : 0;
+        Raca = cao.Raca;
+        Cor = cao.Cor;        
         DataResgate = cao.DataResgate;
         SituacaoSelecionada = (int)cao.Situacao;
         Observacoes = cao.Observacoes;
@@ -125,6 +134,9 @@ public partial class CadastroCaoViewModel : BaseViewModel
             CaminhoFoto = CaminhoFoto,
             Sexo = (Sexo)SexoSelecionado,
             Porte = (Porte)PorteSelecionado,
+            Raca = Raca?.Trim(),
+            Cor = Cor?.Trim(),
+            Castrado = CastradoSelecionado == 1,
             DataResgate = DataResgate,
             Situacao = (SituacaoCao)SituacaoSelecionada,
             Observacoes = Observacoes,

@@ -32,6 +32,14 @@
             <Label Text="Nome" Style="{StaticResource Rotulo}" />
             <Entry Text="{Binding Nome}" Placeholder="Ex.: Thor" />
 
+            <Label Text="Raça" Style="{StaticResource Rotulo}" />
+            <Entry Text="{Binding Raca}"
+                   Placeholder="Ex.: Labrador" />
+
+            <Label Text="Cor" Style="{StaticResource Rotulo}" />
+            <Entry Text="{Binding Cor}"
+                   Placeholder="Ex.: Caramelo" />
+
             <Label Text="Sexo" Style="{StaticResource Rotulo}" />
             <Picker ItemsSource="{Binding OpcoesSexo}"
                     SelectedIndex="{Binding SexoSelecionado}" />
@@ -39,6 +47,10 @@
             <Label Text="Porte" Style="{StaticResource Rotulo}" />
             <Picker ItemsSource="{Binding OpcoesPorte}"
                     SelectedIndex="{Binding PorteSelecionado}" />
+
+            <Label Text="Castrado" />
+            <Picker ItemsSource="{Binding OpcoesCastrado}"
+                    SelectedIndex="{Binding CastradoSelecionado}" />
 
             <Label Text="Data do resgate" Style="{StaticResource Rotulo}" />
             <DatePicker Date="{Binding DataResgate}" Format="dd/MM/yyyy" />

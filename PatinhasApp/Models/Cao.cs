@@ -16,6 +16,9 @@ public class Cao
 
     public Sexo Sexo { get; set; }
     public Porte Porte { get; set; }
+    public string? Raca { get; set; }
+    public string? Cor { get; set; }
+    public bool Castrado { get; set; }
     public DateTime DataResgate { get; set; } = DateTime.Today;
     public SituacaoCao Situacao { get; set; } = SituacaoCao.NoProjeto;
     public string? Observacoes { get; set; }
