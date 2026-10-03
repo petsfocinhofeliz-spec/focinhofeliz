@@ -6,9 +6,9 @@ using PatinhasApp.Models;
 
 namespace PatinhasApp.ViewModels;
 
-// Tela de registrar uma adoção. Pode receber "caoId" já preenchido
-// (quando aberta pela tela de detalhe do cão) ou deixar escolher o cão.
+// Tela de registrar/editar uma adoção.
 [QueryProperty(nameof(CaoId), "caoId")]
+[QueryProperty(nameof(AdocaoId), "adocaoId")]
 public partial class CadastroAdocaoViewModel : BaseViewModel
 {
     private readonly DatabaseService _database;
@@ -20,25 +20,70 @@ public partial class CadastroAdocaoViewModel : BaseViewModel
     }
 
     [ObservableProperty] private int caoId;
+    [ObservableProperty] private int adocaoId;
     [ObservableProperty] private Cao? caoSelecionado;
     [ObservableProperty] private DateTime dataAdocao = DateTime.Today;
     [ObservableProperty] private string nomeAdotante = string.Empty;
     [ObservableProperty] private string contato = string.Empty;
     [ObservableProperty] private string? observacoes;
-
     public ObservableCollection<Cao> Caes { get; } = new();
+    partial void OnAdocaoIdChanged(int value)
+    {
+        if (value > 0)
+            _ = CarregarAdocaoAsync(value);
+    }
 
     [RelayCommand]
     public async Task CarregarCaesAsync()
     {
         var lista = await _database.ObterCaesAsync();
+
         Caes.Clear();
+
         foreach (var c in lista)
             Caes.Add(c);
 
-        // Se veio da tela de detalhe, já deixa o cão selecionado.
-        if (CaoId > 0)
+        // Novo cadastro vindo da tela de detalhe do cão.
+        if (AdocaoId == 0 && CaoId > 0)
+        {
             CaoSelecionado = Caes.FirstOrDefault(c => c.Id == CaoId);
+        }
+
+        // Edição de uma adoção existente.
+        if (AdocaoId > 0)
+        {
+            var adocao = await _database.ObterAdocaoPorCaoAsync(
+                AdocaoId);
+
+            if (adocao != null)
+                CaoSelecionado = Caes.FirstOrDefault(
+                    c => c.Id == adocao.CaoId);
+        }
+    }
+
+    private async Task CarregarAdocaoAsync(int id)
+    {
+        var listaCaes = await _database.ObterCaesAsync();
+
+        Caes.Clear();
+
+        foreach (var c in listaCaes)
+            Caes.Add(c);
+
+        var adocao = await _database.ObterAdocaoAsync(id);
+
+        if (adocao == null)
+            return;
+
+        Titulo = "Editar adoção";
+
+        CaoSelecionado = Caes.FirstOrDefault(
+            c => c.Id == adocao.CaoId);
+
+        DataAdocao = adocao.DataAdocao;
+        NomeAdotante = adocao.NomeAdotante;
+        Contato = adocao.Contato;
+        Observacoes = adocao.Observacoes;
     }
 
     [RelayCommand]
@@ -46,17 +91,27 @@ public partial class CadastroAdocaoViewModel : BaseViewModel
     {
         if (CaoSelecionado == null)
         {
-            await Application.Current!.MainPage!.DisplayAlert("Atenção", "Escolha o cão adotado.", "OK");
+            await Application.Current!.MainPage!.DisplayAlert(
+                "Atenção",
+                "Escolha o cão adotado.",
+                "OK");
+
             return;
         }
+
         if (string.IsNullOrWhiteSpace(NomeAdotante))
         {
-            await Application.Current!.MainPage!.DisplayAlert("Atenção", "Informe o nome do adotante.", "OK");
+            await Application.Current!.MainPage!.DisplayAlert(
+                "Atenção",
+                "Informe o nome do adotante.",
+                "OK");
+
             return;
         }
 
         var adocao = new Adocao
         {
+            Id = AdocaoId,
             CaoId = CaoSelecionado.Id,
             NomeAnimal = CaoSelecionado.Nome,
             DataAdocao = DataAdocao,
@@ -67,8 +122,9 @@ public partial class CadastroAdocaoViewModel : BaseViewModel
 
         await _database.SalvarAdocaoAsync(adocao);
 
-        // Ao adotar, o cão passa automaticamente para a situação "Adotado".
+        // O cão fica como adotado.
         CaoSelecionado.Situacao = SituacaoCao.Adotado;
+
         await _database.SalvarCaoAsync(CaoSelecionado);
 
         await Shell.Current.GoToAsync("..");

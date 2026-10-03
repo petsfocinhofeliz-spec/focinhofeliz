@@ -115,6 +115,14 @@ public class DatabaseService
         var db = await ObterConexaoAsync();
         return await db.Table<Adocao>().OrderByDescending(a => a.DataAdocao).ToListAsync();
     }
+    public async Task<Adocao?> ObterAdocaoAsync(int id)
+    {
+        var db = await ObterConexaoAsync();
+
+        return await db.Table<Adocao>()
+            .Where(a => a.Id == id)
+            .FirstOrDefaultAsync();
+    }
 
     public async Task<Adocao?> ObterAdocaoPorCaoAsync(int caoId)
     {
